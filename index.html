@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ghost Math</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <style>
+    #mathInput {
+      overflow: auto;
+    }
+
+    #equationResult {
+      overflow: auto;
+      white-space: nowrap;
+    }
+
+    #resultCard {
+      position: relative;
+    }
+
+    @media (min-width: 768px) {
+      .container {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .max-w-md {
+        flex: 0 0 48%;
+      }
+
+      .auxiliary-list {
+        flex: 0 0 48%;
+      }
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-r from-purple-900 to-blue-900 text-white">
+  <div class="container mx-auto p-8">
+    <div class="max-w-md mx-auto">
+      <h1 class="text-3xl font-bold mb-8 text-center">Ghost Math</h1>
+      <div class="bg-gray-800 p-6 rounded-md shadow-md">
+        <label for="mathInput" class="block mb-2 text-lg font-semibold">Enter Math Code:</label>
+        <textarea id="mathInput" class="w-full bg-gray-700 p-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" rows="5" placeholder="Enter LaTeX math code here...">$$ \int_0^1 x^2 ,dx = \left[ \frac{x^3}{3} \right]_0^1 = \frac{1}{3} - 0 = \frac{1}{3} $$</textarea>
+        <button id="renderButton" class="mt-4 w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:scale-105">Render</button>
+      </div>
+      <div id="resultCard" class="mt-8 hidden">
+        <div class="bg-gray-800 p-6 rounded-md shadow-md">
+          <p class="text-lg font-semibold mb-2">Result:</p>
+          <div id="equationResult" class="text-blue-400"></div>
+        </div>
+      </div>
+    </div>
+    <div class="auxiliary-list py-10">
+      <h2 class="text-xl font-bold mb-4">Auxiliary Table</h2>
+      <table class="table-auto">
+        <thead>
+          <tr>
+            <th class="px-4 py-2">Math Element</th>
+            <th class="px-4 py-2">Latex Code</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="border px-4 py-2">+ (Plus)</td>
+            <td class="border px-4 py-2">+</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">- (Minus)</td>
+            <td class="border px-4 py-2">-</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">x (Times)</td>
+            <td class="border px-4 py-2">\times</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">/ (Division)</td>
+            <td class="border px-4 py-2">\div</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">≠ (Not Equals)</td>
+            <td class="border px-4 py-2">\neq</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">≤ (Less Than or Equal)</td>
+            <td class="border px-4 py-2">\leq</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">≥ (Greater Than or Equal)</td>
+            <td class="border px-4 py-2">\geq</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">∞ (Infinity)</td>
+            <td class="border px-4 py-2">\infty</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">α (Alpha)</td>
+            <td class="border px-4 py-2">\alpha</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">β (Beta)</td>
+            <td class="border px-4 py-2">\beta</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">γ (Gamma)</td>
+            <td class="border px-4 py-2">\gamma</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">δ (Delta)</td>
+            <td class="border px-4 py-2">\delta</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">ε (Epsilon)</td>
+            <td class="border px-4 py-2">\varepsilon</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">ζ (Zeta)</td>
+            <td class="border px-4 py-2">\zeta</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">η (Eta)</td>
+            <td class="border px-4 py-2">\eta</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">θ (Theta)</td>
+            <td class="border px-4 py-2">\theta</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">λ (Lambda)</td>
+            <td class="border px-4 py-2">\lambda</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">μ (Mu)</td>
+            <td class="border px-4 py-2">\mu</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">π (Pi)</td>
+            <td class="border px-4 py-2">\pi</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">σ (Sigma)</td>
+            <td class="border px-4 py-2">\sigma</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">x² (x squared)</td>
+            <td class="border px-4 py-2">x^2</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">x₀ (x subscript zero)</td>
+            <td class="border px-4 py-2">x_0</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">aⁱ (a to the power of i)</td>
+            <td class="border px-4 py-2">a^i</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">1/2​ (One-half)</td>
+            <td class="border px-4 py-2">\frac{1}{2}</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">sin(x)</td>
+            <td class="border px-4 py-2">\sin(x)</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">cos(x)</td>
+            <td class="border px-4 py-2">\cos(x)</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">tan(x)</td>
+            <td class="border px-4 py-2">\tan(x)</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">cot(x)</td>
+            <td class="border px-4 py-2">\cot(x)</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">log(x) (base 10 logarithm)</td>
+            <td class="border px-4 py-2">\log(x)</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">i=1∑n​xi​ (Sum from i=1 to n of x_i)</td>
+            <td class="border px-4 py-2">\sum\limits_{i=1}^{n} x_i</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">∫ (Integral)</td>
+            <td class="border px-4 py-2">\int</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">∮ (Contour integral)</td>
+            <td class="border px-4 py-2">\oint</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">∂ (Partial derivative)</td>
+            <td class="border px-4 py-2">\partial</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">∇ (Gradient)</td>
+            <td class="border px-4 py-2">\nabla</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">∝ (Proportional to)</td>
+            <td class="border px-4 py-2">\propto</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">∥ (Parallel)</td>
+            <td class="border px-4 py-2">\parallel</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">¬ (Not)</td>
+            <td class="border px-4 py-2">\neg</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">∧ (Logical and)</td>
+            <td class="border px-4 py-2">\wedge</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">∨ (Logical or)</td>
+            <td class="border px-4 py-2">\vee</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">∃ (Exists)</td>
+            <td class="border px-4 py-2">\exists</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">∀ (For all)</td>
+            <td class="border px-4 py-2">\forall</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">∅ (Empty set)</td>
+            <td class="border px-4 py-2">\emptyset</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">[ ] (Matrix)</td>
+            <td class="border px-4 py-2">\begin{bmatrix} ... \ ... \ \end{bmatrix}</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">ℝ (Real numbers)</td>
+            <td class="border px-4 py-2">\mathbb{R}</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">ℂ (Complex numbers)</td>
+            <td class="border px-4 py-2">\mathbb{C}</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">ℤ (Integers)</td>
+            <td class="border px-4 py-2">\mathbb{Z}</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">ℚ (Rational numbers)</td>
+            <td class="border px-4 py-2">\mathbb{Q}</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">ℵ (Aleph, infinity)</td>
+            <td class="border px-4 py-2">\aleph</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">𝔽 (Finite field)</td>
+            <td class="border px-4 py-2">\mathbb{F}</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">⇔ (If and only if)</td>
+            <td class="border px-4 py-2">\Leftrightarrow</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">≢ (Congruent)</td>
+            <td class="border px-4 py-2">\cong</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">⊊ (Not equivalent)</td>
+            <td class="border px-4 py-2">\not\equiv</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">⊂ (Subset)</td>
+            <td class="border px-4 py-2">\subset</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">⊃ (Superset)</td>
+            <td class="border px-4 py-2">\supset</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">⊆ (Subset or equal)</td>
+            <td class="border px-4 py-2">\subseteq</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">⊇ (Superset or equal)</td>
+            <td class="border px-4 py-2">\supseteq</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">ℕ (Natural numbers)</td>
+            <td class="border px-4 py-2">\mathbb{N}</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">→ (Right arrow)</td>
+            <td class="border px-4 py-2">\rightarrow</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">← (Left arrow)</td>
+            <td class="border px-4 py-2">\leftarrow</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">⇔ (Double-headed arrow)</td>
+            <td class="border px-4 py-2">\Leftrightarrow</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">↦ (Right map)</td>
+            <td class="border px-4 py-2">\mapsto</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">↾ (Downward projection)</td>
+            <td class="border px-4 py-2">\downarrow</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('renderButton').addEventListener('click', function() {
+      var mathInput = document.getElementById('mathInput').value;
+      var equationResult = document.getElementById('equationResult');
+      equationResult.innerHTML = mathInput;
+      MathJax.typeset();
+      document.getElementById('resultCard').classList.remove('hidden');
+    });
+  </script>
+</body>
+</html>
