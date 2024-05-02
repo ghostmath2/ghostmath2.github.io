@@ -43,7 +43,7 @@
       <h1 class="text-3xl font-bold mb-8 text-center">Ghost Math</h1>
       <div class="bg-gray-800 p-6 rounded-md shadow-md">
         <label for="mathInput" class="block mb-2 text-lg font-semibold">Enter Math Code:</label>
-        <textarea id="mathInput" class="w-full bg-gray-700 p-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" rows="5" placeholder="Enter LaTeX math code here...">$$ \int_0^1 x^2 ,dx = \left[ \frac{x^3}{3} \right]_0^1 = \frac{1}{3} - 0 = \frac{1}{3} $$</textarea>
+        <textarea id="mathInput" class="w-full bg-gray-700 p-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" rows="5" placeholder="Enter LaTeX math code here...">\int_0^1 x^2 ,dx = \left[ \frac{x^3}{3} \right]_0^1 = \frac{1}{3} - 0 = \frac{1}{3}</textarea>
         <button id="renderButton" class="mt-4 w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:scale-105">Render</button>
       </div>
       <div id="resultCard" class="mt-8 hidden">
@@ -317,13 +317,16 @@
   </div>
 
   <script>
-    document.getElementById('renderButton').addEventListener('click', function() {
-      var mathInput = document.getElementById('mathInput').value;
-      var equationResult = document.getElementById('equationResult');
-      equationResult.innerHTML = mathInput;
-      MathJax.typeset();
-      document.getElementById('resultCard').classList.remove('hidden');
-    });
-  </script>
+  document.getElementById('renderButton').addEventListener('click', function() {
+    var mathInput = document.getElementById('mathInput').value;
+    mathInput = "$$" + mathInput + "$$";
+
+    var equationResult = document.getElementById('equationResult');
+    equationResult.innerHTML = mathInput;
+    MathJax.typeset();
+    document.getElementById('resultCard').classList.remove('hidden');
+  });
+</script>
+  
 </body>
 </html>
